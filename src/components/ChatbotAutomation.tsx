@@ -119,28 +119,30 @@ const ChatbotAutomation: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-      <header className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate("/templates")}
-              className="flex items-center text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              <FiArrowLeft className="mr-2" />
-              Back to Templates
-            </button>
+            <div className="flex items-center">
+              <button
+                onClick={() => navigate("/templates")}
+                className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              >
+                <FiArrowLeft className="mr-2" />
+                Back to Templates
+              </button>
+            </div>
             <h1 className="text-xl font-bold text-gray-900 flex items-center">
               <FiInstagram className="text-pink-600 mr-2" /> Instagram Chatbot
             </h1>
-            {generatedData && (
+            <div>
               <button
                 onClick={handleContinue}
-                disabled={loading}
+                disabled={!generatedData || loading}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center"
               >
                 {loading ? "Saving..." : "Continue"}
               </button>
-            )}
+            </div>
           </div>
         </div>
       </header>

@@ -75,6 +75,8 @@ const MobilePreview: React.FC<MobilePreviewProps> = ({
             (p: any) => p.id === postId
           );
 
+          console.log("Post data:", post);
+
           if (post) {
             setSelectedPost(post);
           } else {
@@ -136,17 +138,27 @@ const MobilePreview: React.FC<MobilePreviewProps> = ({
         <FiMoreHorizontal className="text-xl text-gray-700" />
       </div>
 
-      {/* Post Image */}
+      {/* Post Media (Image or Video) */}
       {useDefaultImage && !selectedPost ? (
         renderNoPostMessage()
       ) : (
         <div className="relative w-full aspect-square bg-black">
-          <img
-            src={safePostImage}
-            alt="Post"
-            className="w-full h-full object-cover"
-            onError={handleImageError}
-          />
+          {selectedPost?.media_type === "VIDEO" ? (
+            <video
+              src={selectedPost?.media_url}
+              className="w-full h-full object-cover"
+              autoPlay
+              loop
+              muted
+            />
+          ) : (
+            <img
+              src={selectedPost?.media_url}
+              alt="Post"
+              className="w-full h-full object-cover"
+              onError={handleImageError}
+            />
+          )}
         </div>
       )}
 

@@ -66,6 +66,7 @@ const Templates: React.FC = () => {
             params: { userId },
           }
         );
+        console.log("Instagram connection response:", response.data);
         if (response.data.username) {
           setIsConnected(true);
         }
@@ -124,11 +125,9 @@ const Templates: React.FC = () => {
 
     if (templateId === "auto-dm-links") {
       navigate("/comment-automation");
-      toast.success("Selected: Auto DM Links");
     } else if (templateId === "comment-automation") {
       // Added new condition for the comment automation template
       navigate("/chatbot-automation");
-      toast.success("Selected: Automate conversations with AI");
     } else {
       toast.info("This template is coming soon!");
     }

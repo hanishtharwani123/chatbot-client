@@ -1,8 +1,7 @@
 // CommentAutomation.tsx
 import React, { useState, useEffect } from "react";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiArrowLeft, FiInstagram } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion"; // Added for animations
 import { toast } from "sonner"; // Added for notifications
 import axios from "axios";
 import CommentAutomationForm from "./CommentAutomation/CommentAutomationForm";
@@ -12,7 +11,6 @@ const CommentAutomation: React.FC = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<string>("");
-
   const [isConnected, setIsConnected] = useState<boolean | null>(null);
   const [previewData, setPreviewData] = useState<{
     openingDM: string;
@@ -74,52 +72,36 @@ const CommentAutomation: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 relative p-4 md:p-8">
-      {/* Header with back button */}
-      <div className="max-w-6xl mx-auto">
-        <motion.button
-          onClick={handleBack}
-          className="absolute top-6 left-6 flex items-center text-gray-700 hover:text-blue-600 font-medium group transition-colors duration-200 z-10"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <FiArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform duration-200" />
-          <span>Back to Templates</span>
-        </motion.button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <button
+                onClick={handleBack}
+                className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              >
+                <FiArrowLeft className="mr-2" />
+                Back to Templates
+              </button>
+            </div>
+            <h1 className="text-xl font-bold text-gray-900 flex items-center">
+              <FiInstagram className="text-pink-600 mr-2" /> Comment Automation
+            </h1>
+            <div>
+              {/* This empty div helps maintain the space for the 3-column layout */}
+            </div>
+          </div>
+        </div>
+      </header>
 
-        <motion.div
-          className="text-center pt-16 mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-            Comment Automation
-          </h1>
-          <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
-            Set up automated DMs for Instagram comments to engage your audience
-            effortlessly.
-          </p>
-        </motion.div>
-      </div>
-
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {isConnected === null ? (
-          <motion.div
-            className="flex justify-center items-center h-64"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="flex justify-center items-center h-64">
             <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          </motion.div>
+          </div>
         ) : isConnected ? (
-          <motion.div
-            className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
             {/* Form Section */}
             <div className="lg:col-span-7 order-2 lg:order-1">
               <div className="bg-white rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
@@ -151,14 +133,9 @@ const CommentAutomation: React.FC = () => {
                 />
               </div>
             </div>
-          </motion.div>
+          </div>
         ) : (
-          <motion.div
-            className="text-center py-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="text-center py-12">
             <p className="text-red-600 text-lg mb-4">
               No Instagram account connected.
             </p>
@@ -168,7 +145,7 @@ const CommentAutomation: React.FC = () => {
             >
               Connect Now
             </button>
-          </motion.div>
+          </div>
         )}
       </div>
     </div>

@@ -79,7 +79,10 @@ const CommentAutomationForm: React.FC<CommentAutomationFormProps> = ({
         );
 
         const automation = automationResponse.data.automation;
-
+        console.log(
+          "Existing automation settings response:",
+          automationResponse.data
+        );
         if (automation) {
           setHasExistingAutomation(true);
           setPostType(automation.postType || "specific");
@@ -217,7 +220,7 @@ const CommentAutomationForm: React.FC<CommentAutomationFormProps> = ({
 
   if (!initialDataLoaded) {
     return (
-      <div className="flex flex-col items-center justify-center p-12">
+      <div className="flex flex-col items-center justify-center p-12 h-[700px]">
         <FiLoader className="animate-spin text-blue-500 text-4xl mb-4" />
         <p className="text-gray-600">Loading your automation settings...</p>
       </div>
@@ -318,23 +321,35 @@ const CommentAutomationForm: React.FC<CommentAutomationFormProps> = ({
                           key={post.id}
                           className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all duration-200 hover:shadow-md ${
                             selectedPost === post.id
-                              ? "border-blue-500 shadow-md"
+                              ? "border-blue-600 shadow-lg"
                               : "border-transparent"
                           }`}
                           onClick={() => setSelectedPost(post.id)}
                         >
-                          <img
-                            src={post.media_url || "/api/placeholder/100/100"}
-                            alt={post.caption || "Instagram post"}
-                            className="w-full h-24 object-cover"
-                          />
+                          {post.media_type === "VIDEO" ? (
+                            <video
+                              src={post.media_url}
+                              className="w-full h-24 object-cover"
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                            />
+                          ) : (
+                            <img
+                              src={post.media_url || "/api/placeholder/100/100"}
+                              alt={post.caption || "Instagram post"}
+                              className="w-full h-24 object-cover"
+                            />
+                          )}
+
+                          {/* ✅ Small Tick Mark Instead of Full Blue Overlay */}
                           {selectedPost === post.id && (
-                            <div className="absolute inset-0 bg-blue-500 bg-opacity-20 flex items-center justify-center">
-                              <div className="bg-blue-500 text-white rounded-full p-1">
-                                <FiCheckCircle />
-                              </div>
+                            <div className="absolute top-2 right-2 bg-blue-600 text-white rounded-full p-1 shadow-md">
+                              <FiCheckCircle size={18} />
                             </div>
                           )}
+
                           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 p-1 text-xs text-white truncate">
                             {post.caption
                               ? post.caption.substring(0, 20) +
@@ -530,96 +545,6 @@ const CommentAutomationForm: React.FC<CommentAutomationFormProps> = ({
           </div>
         </motion.div>
 
-        {/* Section 4: Automation Options */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300"
-        >
-          <h3 className="text-lg font-semibold mb-4 flex items-center text-gray-800">
-            <span className="bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-full w-7 h-7 inline-flex items-center justify-center mr-3 text-sm">
-              4
-            </span>
-            Additional automation options
-          </h3>
-          <div className="space-y-3 pl-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label className="flex items-start p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-all">
-                <input
-                  type="checkbox"
-                  checked={autoReply}
-                  onChange={(e) => setAutoReply(e.target.checked)}
-                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 mt-0.5"
-                />
-                <div className="ml-3">
-                  <span className="text-gray-700 font-medium flex items-center">
-                    <FiMessageSquare className="mr-2 text-blue-500" />
-                    Auto-reply to comments
-                  </span>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Responds with "Thanks, check your DM!"
-                  </p>
-                </div>
-              </label>
-
-              <label className="flex items-start p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-all">
-                <input
-                  type="checkbox"
-                  checked={followUp}
-                  onChange={(e) => setFollowUp(e.target.checked)}
-                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 mt-0.5"
-                />
-                <div className="ml-3">
-                  <span className="text-gray-700 font-medium flex items-center">
-                    <FiRepeat className="mr-2 text-blue-500" />
-                    Follow-up message
-                  </span>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Sends a follow-up DM after 24 hours
-                  </p>
-                </div>
-              </label>
-
-              <label className="flex items-start p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-all">
-                <input
-                  type="checkbox"
-                  checked={followRequest}
-                  onChange={(e) => setFollowRequest(e.target.checked)}
-                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 mt-0.5"
-                />
-                <div className="ml-3">
-                  <span className="text-gray-700 font-medium flex items-center">
-                    <FiUserPlus className="mr-2 text-blue-500" />
-                    Request a follow
-                  </span>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Asks commenters to follow your account
-                  </p>
-                </div>
-              </label>
-
-              <label className="flex items-start p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-all">
-                <input
-                  type="checkbox"
-                  checked={emailRequest}
-                  onChange={(e) => setEmailRequest(e.target.checked)}
-                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 mt-0.5"
-                />
-                <div className="ml-3">
-                  <span className="text-gray-700 font-medium flex items-center">
-                    <FiMail className="mr-2 text-blue-500" />
-                    Request an email
-                  </span>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Asks for an email to build your list
-                  </p>
-                </div>
-              </label>
-            </div>
-          </div>
-        </motion.div>
-
         {/* Save Button and Live Toggle */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -648,7 +573,7 @@ const CommentAutomationForm: React.FC<CommentAutomationFormProps> = ({
             onClick={handleSaveAutomation}
             disabled={isSaving}
             className={`px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-medium rounded-lg shadow-sm hover:shadow transition-all duration-200 flex items-center ${
-              isSaving ? "opacity-70 cursor-not-allowed" : ""
+              isSaving ? "opacity-70 cursor-not-allowed" : "cursor-pointer"
             }`}
           >
             {isSaving ? (

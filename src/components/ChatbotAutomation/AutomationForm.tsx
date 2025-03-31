@@ -144,7 +144,7 @@ const AutomationForm: React.FC<AutomationFormProps> = ({
           <button
             onClick={handleGenerateClick}
             disabled={isGenerating}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 transition-all shadow"
+            className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer text-white py-3 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 transition-all shadow"
           >
             {isGenerating ? (
               <>
@@ -234,7 +234,7 @@ const AutomationForm: React.FC<AutomationFormProps> = ({
 
           <button
             onClick={onPreviewChat}
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow"
+            className="w-full bg-green-600 hover:bg-green-700  text-white py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow"
           >
             <MessageSquare size={20} />
             Preview Chat
